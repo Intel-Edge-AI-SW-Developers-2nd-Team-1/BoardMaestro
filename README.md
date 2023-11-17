@@ -63,6 +63,7 @@ python demo.py -i xxx -m yyy -d zzz
   * Description :
   ```
   details:
+  
   1. 항목1
   2. 항목2
   3. 항목3
@@ -70,6 +71,6 @@ python demo.py -i xxx -m yyy -d zzz
 ## Commit rules
 - commit message: 
   ```
-  git commit -m "[<your part name>] updated code.abc"
+  git commit -m "updated code.abc by <your id>"
   ```
 
