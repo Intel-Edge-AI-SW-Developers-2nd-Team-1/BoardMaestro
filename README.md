@@ -53,3 +53,23 @@ python demo.py -i xxx -m yyy -d zzz
 * (프로젝트 실행 화면 캡쳐)
 
 ![./result.jpg](./result.jpg)
+
+## PR rules
+- part, milestone, details 포함하여 PR
+  * Title :
+  ```
+  [<your part name>] 해당 milestone 참조
+  ```
+  * Description :
+  ```
+  details:
+  1. 항목1
+  2. 항목2
+  3. 항목3
+  ```
+## Commit rules
+- commit message: 
+  ```
+  git commit -m "[<your part name>] updated code.abc"
+  ```
+
