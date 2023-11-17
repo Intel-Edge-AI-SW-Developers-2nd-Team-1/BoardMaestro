@@ -4,7 +4,7 @@
 
 ## High Level Design
 
-* (프로젝트 아키텍쳐 기술, 전반적인 diagram 으로 설명을 권장)
+![image](https://github.com/roby238/BoardMaestro/assets/45201672/aaeefcd4-a364-4b70-9625-3cac775e5cc1)
 
 ## Clone code
 
