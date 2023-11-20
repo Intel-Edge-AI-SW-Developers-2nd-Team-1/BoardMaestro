@@ -9,6 +9,12 @@ from mediapipe.tasks.python import vision
 from mediapipe import solutions
 from mediapipe.framework.formats import landmark_pb2
 
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+from hand_pattern_recognition_module import HandPatternRecognition
+
+
 # define HandLandmarkers elements
 model_path = 'C:\pywork\hand_landmarker.task'
 
@@ -65,6 +71,20 @@ def draw_landmarks_on_image(rgb_image, detection_result):
                     FONT_SIZE, HANDEDNESS_TEXT_COLOR, FONT_THICKNESS, cv2.LINE_AA)
     return annotated_image
 
+def show_list(position, save_frames, x, y, z):
+    '''Show List Function'''
+    if save_frames == 0:
+        print("List is empty")
+        return 0
+    # show each saved frame information
+    for row in range(0, save_frames+1, 1):
+        print(f"Frame{row}")
+        # show each positions, x,y,z value
+        for col in range(0, points, 1):
+            print(f"{position[col]} x={x[row][col]}, y={y[row][col]}, z={z[row][col]}")
+
+
+
 # set option
 options = HandLandmarkerOptions(
     base_options=BaseOptions(model_asset_path=model_path, delegate=BaseOptions.Delegate.CPU),
@@ -88,12 +108,22 @@ points = 21
 x=[]
 y=[]
 z=[]
+hprx=[]
+hpry=[]
+hprz=[]
+for i in range(0,points,1):
+    hprx.append(0)
+    hpry.append(0)
+    hprz.append(0)
 
 # define flags
 written_flag = False
 
 # define save_frames
 save_frames = 0
+
+# call HandPatternRecognition class
+hpr = HandPatternRecognition(hprx, hpry,hprz)
 
 # Use OpenCV’s VideoCapture to start capturing from the webcam.
 cap = cv2.VideoCapture(0)
@@ -127,16 +157,27 @@ while True:
     annotated_image = draw_landmarks_on_image(mp_image.numpy_view(), hand_landmarker_result)
     cv2.imshow("Result", cv2.cvtColor(annotated_image, cv2.COLOR_RGB2BGR))
 
-    # save key point at list if flag is True
-    if written_flag == True:
-        x.append([None] * points)
-        y.append([None] * points)
-        z.append([None] * points)
-        for i in range(0,points,1):
-            x[save_frames][i] = hand_landmarker_result.hand_landmarks[0][i].x
-            y[save_frames][i] = hand_landmarker_result.hand_landmarks[0][i].y
-            z[save_frames][i] = hand_landmarker_result.hand_landmarks[0][i].z
-        save_frames += 1
+    # if detect hand, start HandPatternRecognition
+    if hand_landmarker_result.handedness.__len__() == 1:
+        # save point to HandPatternRecognition
+        for i in range(0, points, 1):
+            hprx[i] = hand_landmarker_result.hand_landmarks[0][i].x
+            hpry[i] = hand_landmarker_result.hand_landmarks[0][i].y
+            hprz[i] = hand_landmarker_result.hand_landmarks[0][i].z
+        hpr.set3DPosition(hprx, hpry, hprz)
+
+        # calculate node angles
+        hpr.getNodesAngle()
+
+        # detect ptrn
+        hpr.getNowPattern()
+
+        # save key point at list if written_flag is True
+        if written_flag == True:
+            x.append(hprx[8])
+            y.append(hpry[8])
+            z.append(hprz[8])
+            save_frames += 1
 
     # show process time and fps
     process_time = time.time() - start_time
@@ -149,10 +190,7 @@ while True:
         break
     elif key == ord('c'):
         written_flag = not written_flag
-        print(written_flag)
+        print(f"written_flag = {written_flag}")
 
 # show list
-for row in range(0,save_frames,1):
-    print(f"Frame{row}")
-    for col in range(0,points,1):
-        print(f"{position[col]} x={x[row][col]}, y={z[row][col]}, z={z[row][col]}")
+show_list(position, save_frames, x, y, z)
