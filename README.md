@@ -7,6 +7,40 @@
 
 ![image](https://github.com/roby238/BoardMaestro/assets/45201672/aaeefcd4-a364-4b70-9625-3cac775e5cc1)
 
+## Sequence Diagram
+
+![board_maestro drawio](https://github.com/Intel-Edge-AI-SW-Developers-2nd-Team-1/BoardMaestro/assets/45201672/7333e0a2-a110-4026-9cc9-c7b466e1bb2b)
+
+## contributors
+
+**yeongdaekim(roby238)**
+- Project Leader
+- Git Manager
+- Expression Calculating
+- Create Deliverables for Develop
+
+**User3198352(User3198352)**
+- Project Manager
+- System Integration
+- Hand Pose Estimaion
+- Create Deliverables for Develop
+
+**Daniel(kcg0118)**
+- AI Modeling(Training, Inference)
+- Create Deliverables for Communication
+  
+**simpleis6est(simpleis6est)**
+- Image Preprocessing
+- Create Deliverables for Develop
+
+**Park JaeByeong(pjb8051)**
+- UI / Hardware
+- Create Deliverables for Develop 
+  
+**jungjaeJJ(jungjaeJJ)**
+- AI Modeling(Dataset, Inference)
+- Create Deliverables for Develop 
+
 ## Clone code
 
 * (각 팀에서 프로젝트를 위해 생성한 repository에 대한 code clone 방법에 대해서 기술)
