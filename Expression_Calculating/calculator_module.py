@@ -22,7 +22,12 @@ class Calculator(object):
     op = {'+': add, '-': sub, '*': mul, '/': truediv}
 
     def is_not_value(self, c):
-        '''Determinate that it is operator or not.'''
+        '''
+        Determinate that it is operator or not.
+
+        input : charactor(one size string)
+        output : true / false
+        '''
         if c in self.op: return True
         elif c in self.bracket: return True
         return False
@@ -31,6 +36,9 @@ class Calculator(object):
         '''
         Result splited with each signal/number with space, 
         can handle float, negative and brackets.
+
+        input : infix style expression
+        output : splited infix style expression
         '''
         res, value = '', ''
         for c in s:
@@ -45,8 +53,11 @@ class Calculator(object):
         
     def is_valid(self, s):
         '''
-        Count brackets from sub-expression.
+        Count brackets from expression.
         If open bracket != close_bracket, It is NOT valid expression.
+        
+        input : infix style expression
+        output : true / false
         '''
         # It should find edge cases.. ex) 1+-0
         open_bracket = 0
@@ -60,6 +71,7 @@ class Calculator(object):
     def to_postfix_proc(self, s):
         '''
         Make it postfix style after parsing bracket and considering operator priority.
+        
         input : splited infix style expression
         output : splited postfix style expression
         '''
@@ -90,6 +102,7 @@ class Calculator(object):
     def calc_proc(self, s):
         '''
         calculates postfix style expression.
+        
         input : splited postfix style expression
         output : calculated result
         '''
@@ -110,6 +123,7 @@ class Calculator(object):
     def eval_proc(self, string):
         '''
         evaluates that the expression is valid or NOT and returns result.
+        
         input : infix style expression
         output : calculated result or 'INVALID'
         '''
@@ -119,7 +133,8 @@ class Calculator(object):
             return 'INVALID'
 
 
-
+'''Example Code
 calc = Calculator()
 expression = input("Enter math expression : ")
 print(calc.eval_proc(expression))
+'''
