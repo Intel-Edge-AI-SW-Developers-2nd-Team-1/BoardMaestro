@@ -33,6 +33,7 @@ For example, let expression be "(1+2*3)/4".
 - The result is 1.75.
 
 ![](/flow.png)
+![flow](https://github.com/Intel-Edge-AI-SW-Developers-2nd-Team-1/BoardMaestro/assets/45201672/bc3e833d-b479-402a-aec8-cedbd541b845)
 
 ### Usage
 - Example Code
