@@ -50,7 +50,7 @@ class Preprocessing:
     
 
 
-    def getNowimage(self):
+    def get_current_image(self):
         # 엑셀 파일에서 데이터 읽기
         df = pd.read_excel(self.excel_path)
 
@@ -60,7 +60,7 @@ class Preprocessing:
         start_idx = 0
         avg_points = []  # 각 구간의 평균값 저장
         
-        def calculate_distance(point1, point2):
+        def get_current_calculate_distance(point1, point2):
             return math.sqrt((point2[0] - point1[0])**2 + (point2[1] - point1[1])**2)
         
         threshold_distance = 100  # 선을 그리기 위한 최소 거리
@@ -90,7 +90,7 @@ class Preprocessing:
     
         # 데이터 포인트 그리기 (평균값)
         for i in range(len(avg_points) - 1):
-            distance = calculate_distance(avg_points[i], avg_points[i + 1])
+            distance = get_current_calculate_distance(avg_points[i], avg_points[i + 1])
             if distance <= threshold_distance:  # 일정 거리 이하인 경우에만 선을 그립니다.
                 plt.scatter(avg_points[i][0], avg_points[i][1], color='white', marker='o', s=100)  # 평균값으로 하나의 점 그리기
                 plt.plot([avg_points[i][0], avg_points[i + 1][0]], [avg_points[i][1], avg_points[i + 1][1]], color='black', linewidth=5)  # 선으로 연결하기
@@ -115,7 +115,7 @@ class Preprocessing:
         plt.savefig('number.png', bbox_inches='tight', pad_inches=0)
         plt.close()
 
-    def getNowStreaming_camera(self, ax):
+    def get_current_streaming_camera(self, ax):
         #5.2 실시간 주요포인트 시연
         ax.clear()#이전에 그린 plot 초기화
         plt.xlim(0,640)
@@ -137,14 +137,14 @@ class Preprocessing:
         plt.pause(0.1)  # 업데이트 간격 설정 (여기서는 0.1초)
         """
     
-    def getNowExcel(self,save_frames,a,b):
+    def get_current_excel(self,save_frames,a,b):
         for i in range(0,save_frames,1):
             self.sheet.cell(row=i + 2, column=1).value = i
             self.sheet.cell(row=i + 2, column=2).value = 640*a[i]
             self.sheet.cell(row=i + 2, column=3).value = 480*b[i]
         self.workbook.save('landmarks.xlsx')   
     
-    def getNowRoi(self, binary_image):
+    def get_current_roi(self, binary_image):
         x_min = float('inf')
         x_max = float('-inf')
         y_min = float('inf')
@@ -170,7 +170,7 @@ class Preprocessing:
 
         return x_min, y_min, x_max-x_min, y_max-y_min, roi
 
-    def getNowresize(self):
+    def get_current_resize(self):
         # 바이너리 이미지 불러오기 (흰색 영역에 대한 윤곽선을 찾습니다)
         color_img = cv2.imread('number.png')
         binary_img = cv2.imread('number.png', cv2.IMREAD_GRAYSCALE)  # 바이너리 이미지 경로를 지정해주세요.
@@ -179,10 +179,10 @@ class Preprocessing:
         binary_img_inverted = cv2.bitwise_not(binary_img)
 
         # 검은색 영역에서 가장 큰 영역의 ROI와 위치 정보 찾기
-        x, y, w, h, black_roi= self.getNowRoi(binary_img_inverted)
+        x, y, w, h, black_roi= self.get_current_roi(binary_img_inverted)
 
         original_roi = color_img[y:y+h, x:x+w]
-        padded_image_white_bg = self.getNowpadding( original_roi, self.top_pad, self.bottom_pad, self.left_pad, self.right_pad)
+        padded_image_white_bg = self.get_current_padding( original_roi, self.top_pad, self.bottom_pad, self.left_pad, self.right_pad)
         # 원하는 크기로 resize
         desired_width = 224
         desired_height = 224
@@ -195,7 +195,7 @@ class Preprocessing:
 
         self.result_counter += 1
 
-    def getNowpadding(self,image, top, bottom, left, right):
+    def get_current_padding(self,image, top, bottom, left, right):
         padded_image = cv2.copyMakeBorder(image, top, bottom, left, right, cv2.BORDER_CONSTANT, value=(255, 255, 255))
         return padded_image
 

@@ -91,16 +91,16 @@ while True:
             hprx[i] = hand_landmarker_result.hand_landmarks[0][i].x
             hpry[i] = hand_landmarker_result.hand_landmarks[0][i].y
             hprz[i] = hand_landmarker_result.hand_landmarks[0][i].z
-        hpr.set3DPosition(hprx, hpry, hprz)
+        hpr.set_3d_position(hprx, hpry, hprz)
 
         # calculate node angles
-        hpr.getNodesAngle()
+        hpr.get_node_angle()
 
         # detect ptrn
-        now_pattern = hpr.getNowPattern()
+        now_pattern = hpr.get_current_pattern()
 
         # pick out mode pattern for avoiding scattering
-        mode_pattern = hpr.checkSwitchPattern(now_pattern)
+        mode_pattern = hpr.check_switch_pattern(now_pattern)
 
         # status[0:stop, 1:write, 2:enter, 3:erase]
         if execute_flag == False and mode_pattern == 0:
@@ -124,10 +124,10 @@ while True:
         elif execute_flag == True and mode_pattern == 2:
             if list_flag == True:
                 # make image
-                ppr.getNowExcel(save_frames,x_8,y_8)
-                ppr.getNowimage()
+                ppr.get_current_excel(save_frames,x_8,y_8)
+                ppr.get_current_image()
                 save_frames = 0
-                ppr.getNowresize()
+                ppr.get_current_resize()
                 for i in range(0,len(x_8),1):
                     x_8.pop()
                     y_8.pop()
