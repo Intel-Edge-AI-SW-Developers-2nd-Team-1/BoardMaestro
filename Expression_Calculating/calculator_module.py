@@ -134,7 +134,3 @@ class Calculator(object):
             return self.calc_proc(self.to_postfix_proc(self.split_proc(string)))
         else:
             return 'INVALID'
-
-calc = Calculator()
-expression = input("Enter math expression : ")
-print(calc.eval_proc(expression))
