@@ -11,7 +11,7 @@ class HandPatternRecognition:
         self.angles = [0, 0, 0, 0]
         self.flags = [0, 0, 0, 0]
         self.ptrn = 0
-        self.check_frames_len = 9
+        self.check_frames_len = 11
         self.check_frames_idx = 0
         self.check_frames_ptrn_list = []
         self.mode_value = 0

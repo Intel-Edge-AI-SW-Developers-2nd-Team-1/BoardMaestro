@@ -1,4 +1,4 @@
-#시각화 및 엑셀 저장을 위한 모듈
+# 시각화 및 엑셀 저장을 위한 모듈
 from tkinter import Y
 import openpyxl
 import matplotlib.pyplot as plt
@@ -7,9 +7,10 @@ import pandas as pd
 import cv2
 import math
 
+
 class Preprocessing:
     def __init__(self):
-        #시각화 그래프 세팅
+        # 시각화 그래프 세팅
         """
         plt.ion()#실시간 업데이트 허용
         self.fig = plt.figure()
@@ -22,22 +23,22 @@ class Preprocessing:
         #fig = plt.figure()
         #ax = fig.add_subplot(111, projection='3d')
         
-        #camera input
+        # camera input
         self.result_counter = 0  # 결과 파일명에 사용될 카운터 변수 초기화
         self.image_width = 640
         self.image_height = 480
-        self.excel_path = "/home/ubuntu/intel-project/new_mergy/landmarks.xlsx"
+        self.excel_path = "./landmarks.xlsx"
 
-                #추출한 Point들을 xlxs에 저장하기 위한 기본 세팅
+        # 추출한 Point들을 xlxs에 저장하기 위한 기본 세팅
         self.workbook = openpyxl.Workbook()
         self.sheet = self.workbook.active
         self.sheet.cell(row=1, column=2).value = "x"
         self.sheet.cell(row=1, column=3).value = "y"
         self.sheet.cell(row=1, column=4).value = "z"
-        self.x=[]
-        self.y=[]
-        self.z=[]
-        for i in range(0,13,1):
+        self.x = []
+        self.y = []
+        self.z = []
+        for i in range(0, 13, 1):
             self.x.append(0)
             self.y.append(0)
             self.z.append(0)
@@ -46,9 +47,6 @@ class Preprocessing:
         self.bottom_pad = 50
         self.left_pad = 50
         self.right_pad = 50
-        
-    
-
 
     def get_current_image(self):
         # 엑셀 파일에서 데이터 읽기
@@ -84,8 +82,8 @@ class Preprocessing:
     
         # 그래프 생성
         plt.figure(figsize=(8, 6))
-        plt.xlim(0,640)
-        plt.ylim(0,480)
+        plt.xlim(0, 640)
+        plt.ylim(0, 480)
         plt.axis('square')
     
         # 데이터 포인트 그리기 (평균값)
@@ -95,7 +93,6 @@ class Preprocessing:
                 plt.scatter(avg_points[i][0], avg_points[i][1], color='white', marker='o', s=100)  # 평균값으로 하나의 점 그리기
                 plt.plot([avg_points[i][0], avg_points[i + 1][0]], [avg_points[i][1], avg_points[i + 1][1]], color='black', linewidth=5)  # 선으로 연결하기
 
-    
         # 마지막 평균값은 점만 그리기
         plt.scatter(avg_points[-1][0], avg_points[-1][1], color='white', marker='o', s=100)
     
@@ -116,12 +113,12 @@ class Preprocessing:
         plt.close()
 
     def get_current_streaming_camera(self, ax):
-        #5.2 실시간 주요포인트 시연
-        ax.clear()#이전에 그린 plot 초기화
+        # 5.2 실시간 주요포인트 시연
+        ax.clear()# 이전에 그린 plot 초기화
         plt.xlim(0,640)
         plt.ylim(0,480)
-        plt.scatter(x,y)#산점도 plot에 그리기
-        plt.draw()#현재 plot 시각화
+        plt.scatter(x, y)# 산점도 plot에 그리기
+        plt.draw()# 현재 plot 시각화
         """
         #3d 그래프 실시간 업데이트 구현
         ax.clear()
@@ -137,8 +134,8 @@ class Preprocessing:
         plt.pause(0.1)  # 업데이트 간격 설정 (여기서는 0.1초)
         """
     
-    def get_current_excel(self,save_frames,a,b):
-        for i in range(0,save_frames,1):
+    def get_current_excel(self, save_frames, a, b):
+        for i in range(0, save_frames, 1):
             self.sheet.cell(row=i + 2, column=1).value = i
             self.sheet.cell(row=i + 2, column=2).value = 640*a[i]
             self.sheet.cell(row=i + 2, column=3).value = 480*b[i]
@@ -150,7 +147,6 @@ class Preprocessing:
         y_min = float('inf')
         y_max = float('-inf')
 
-    
         height, width = binary_image.shape[:2]
 
         for i in range(width):
@@ -179,10 +175,10 @@ class Preprocessing:
         binary_img_inverted = cv2.bitwise_not(binary_img)
 
         # 검은색 영역에서 가장 큰 영역의 ROI와 위치 정보 찾기
-        x, y, w, h, black_roi= self.get_current_roi(binary_img_inverted)
+        x, y, w, h, black_roi = self.get_current_roi(binary_img_inverted)
 
         original_roi = color_img[y:y+h, x:x+w]
-        padded_image_white_bg = self.get_current_padding( original_roi, self.top_pad, self.bottom_pad, self.left_pad, self.right_pad)
+        padded_image_white_bg = self.get_current_padding(original_roi, self.top_pad, self.bottom_pad, self.left_pad, self.right_pad)
         # 원하는 크기로 resize
         desired_width = 224
         desired_height = 224
@@ -195,7 +191,7 @@ class Preprocessing:
 
         self.result_counter += 1
 
-    def get_current_padding(self,image, top, bottom, left, right):
+    def get_current_padding(self, image, top, bottom, left, right):
         padded_image = cv2.copyMakeBorder(image, top, bottom, left, right, cv2.BORDER_CONSTANT, value=(255, 255, 255))
         return padded_image
 
