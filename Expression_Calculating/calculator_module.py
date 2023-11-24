@@ -108,16 +108,19 @@ class Calculator(object):
         '''
         st = []
         tokens = s.split()
-        for tok in tokens:
-            if tok not in self.op:
-                st.append(float(tok))
-            else:
-                n1 = st.pop()
-                n2 = st.pop()
-                if tok == '/' and n1 == 0:
-                    return 'NAN'
+        try:
+            for tok in tokens:
+                if tok not in self.op:
+                    st.append(float(tok))
                 else:
-                    st.append(self.op[tok](n2, n1))
+                    n1 = st.pop()
+                    n2 = st.pop()
+                    if tok == '/' and n1 == 0:
+                        return 'NAN'
+                    else:
+                        st.append(self.op[tok](n2, n1))
+        except Exception :
+            return 'INVALID'
         return st.pop()
 
     def eval_proc(self, string):
@@ -131,4 +134,3 @@ class Calculator(object):
             return self.calc_proc(self.to_postfix_proc(self.split_proc(string)))
         else:
             return 'INVALID'
-
