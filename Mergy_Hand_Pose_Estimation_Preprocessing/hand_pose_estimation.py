@@ -64,11 +64,15 @@ hpes = HandPoseEstimationShow(points)
 
 # call and set inferencing module
 infer_model_path = './models'
-input_shape = np.zeros((224, 224, 3))
+input_shape = np.zeros((150, 150, 3))
 infer = ImageInferencing(infer_model_path, 'CPU', input_shape)
 
 # Use OpenCV’s VideoCapture to start capturing from the webcam.
 cap = cv2.VideoCapture(0)
+
+# str save list
+str = ""
+str2 = f'counter: {ppr.result_counter}'
 
 # Create a loop to read the latest frame from the camera using VideoCapture#read()
 while True:
@@ -87,9 +91,11 @@ while True:
                         data=cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
     
     hand_landmarker_result = landmarker.detect(mp_image)
-
+    
     # show detection_result to visible
     annotated_image = hpes.draw_landmarks_on_image(mp_image.numpy_view(), hand_landmarker_result)
+    cv2.putText(annotated_image,str,(5,50),cv2.FONT_HERSHEY_SIMPLEX,2,(0,0,0),10)
+    cv2.putText(annotated_image,str2,(5,100),cv2.FONT_HERSHEY_SIMPLEX,2,(0,0,0),5)
     cv2.imshow("Result", cv2.cvtColor(annotated_image, cv2.COLOR_RGB2BGR))
 
     # if detect hand, start HandPatternRecognition
@@ -111,17 +117,23 @@ while True:
         mode_pattern = hpr.check_switch_pattern(now_pattern)
 
         # status[0:stop, 1:write, 2:enter, 3:erase]
-        if execute_flag is False and mode_pattern == 0:
+        if mode_pattern == 0:
             execute_flag = True
-            print("stop")
+            if str != "Stop mode":
+                str = "Stop mode"
+            str2 = f'counter: {ppr.result_counter}'
+            #print("stop")
 
         #  execute each status
         #  writing action
         if execute_flag is True and mode_pattern == 1:
             # saving points save in x,y
-            x_8.append(hprx[8])
-            y_8.append(hpry[8])
+            x_8.append(hprx[8]*640)
+            y_8.append(hpry[8]*480)
             save_frames += 1
+            if str != "writing mode":
+                str = "writing mode"
+            str2 = f'counter: {ppr.result_counter}'
             execute_flag = True
 
             # list_flag down
@@ -132,11 +144,14 @@ while True:
             if list_flag is True:
                 # make image
                 ppr.get_current_excel(save_frames, x_8, y_8)
-                ppr.get_current_image()
+                ppr.get_current_image(x_8, y_8)
                 save_frames = 0
                 ppr.get_current_resize()
                 x_8 = []
                 y_8 = []
+                if str != "enter mode":
+                    str = "enter mode"
+                str2 = f'counter: {ppr.result_counter}'
 
                 # inferencing and make string
                 string_image = cv2.imread(f'./Result/Result_{ppr.result_counter-1}.jpg')
@@ -162,6 +177,8 @@ while True:
                 x_8 = []
                 y_8 = []
                 save_frames = 0
+                if str != "erase list":
+                    str = "erase list"
                 print("erase list")
                 execute_flag = False
 
@@ -174,6 +191,9 @@ while True:
                     ppr.result_counter -= 1
                     del string_buf[ppr.result_counter]
                     print(string_buf)
+                if str != "erase picture":
+                    str = "erase picture"
+                str2 = f'counter: {ppr.result_counter}'
 
                 print("erase picture")
                 execute_flag = False

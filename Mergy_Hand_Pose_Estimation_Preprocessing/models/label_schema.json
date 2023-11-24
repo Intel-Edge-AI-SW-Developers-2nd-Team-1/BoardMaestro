@@ -22,7 +22,7 @@
     },
     "label_groups": [
         {
-            "_id": "655b00c1bca409adde465c0f",
+            "_id": "655f0aea04ec1b64ad192818",
             "name": "labels",
             "label_ids": [
                 "0",
@@ -48,14 +48,14 @@
             "_id": "0",
             "name": "+",
             "color": {
-                "red": 108,
-                "green": 37,
-                "blue": 58,
+                "red": 251,
+                "green": 244,
+                "blue": 65,
                 "alpha": 255
             },
             "hotkey": "",
             "domain": "CLASSIFICATION",
-            "creation_date": "2023-11-20T06:46:19.890000",
+            "creation_date": "2023-11-23T08:18:49.779000",
             "is_empty": false,
             "is_anomalous": false
         },
@@ -63,14 +63,14 @@
             "_id": "1",
             "name": "-",
             "color": {
-                "red": 230,
-                "green": 72,
-                "blue": 131,
+                "red": 77,
+                "green": 226,
+                "blue": 138,
                 "alpha": 255
             },
             "hotkey": "",
             "domain": "CLASSIFICATION",
-            "creation_date": "2023-11-20T06:46:19.890000",
+            "creation_date": "2023-11-23T08:18:49.779000",
             "is_empty": false,
             "is_anomalous": false
         },
@@ -78,14 +78,14 @@
             "_id": "2",
             "name": "0",
             "color": {
-                "red": 95,
-                "green": 67,
-                "blue": 84,
+                "red": 99,
+                "green": 158,
+                "blue": 115,
                 "alpha": 255
             },
             "hotkey": "",
             "domain": "CLASSIFICATION",
-            "creation_date": "2023-11-20T06:46:19.890000",
+            "creation_date": "2023-11-23T08:18:49.779000",
             "is_empty": false,
             "is_anomalous": false
         },
@@ -93,14 +93,14 @@
             "_id": "3",
             "name": "1",
             "color": {
-                "red": 61,
-                "green": 2,
-                "blue": 187,
+                "red": 73,
+                "green": 133,
+                "blue": 149,
                 "alpha": 255
             },
             "hotkey": "",
             "domain": "CLASSIFICATION",
-            "creation_date": "2023-11-20T06:46:19.890000",
+            "creation_date": "2023-11-23T08:18:49.779000",
             "is_empty": false,
             "is_anomalous": false
         },
@@ -108,14 +108,14 @@
             "_id": "4",
             "name": "2",
             "color": {
-                "red": 244,
-                "green": 184,
-                "blue": 132,
+                "red": 249,
+                "green": 6,
+                "blue": 175,
                 "alpha": 255
             },
             "hotkey": "",
             "domain": "CLASSIFICATION",
-            "creation_date": "2023-11-20T06:46:19.890000",
+            "creation_date": "2023-11-23T08:18:49.779000",
             "is_empty": false,
             "is_anomalous": false
         },
@@ -123,14 +123,14 @@
             "_id": "5",
             "name": "3",
             "color": {
-                "red": 170,
-                "green": 141,
-                "blue": 59,
+                "red": 180,
+                "green": 83,
+                "blue": 41,
                 "alpha": 255
             },
             "hotkey": "",
             "domain": "CLASSIFICATION",
-            "creation_date": "2023-11-20T06:46:19.890000",
+            "creation_date": "2023-11-23T08:18:49.779000",
             "is_empty": false,
             "is_anomalous": false
         },
@@ -138,14 +138,14 @@
             "_id": "6",
             "name": "4",
             "color": {
-                "red": 71,
-                "green": 154,
-                "blue": 43,
+                "red": 61,
+                "green": 98,
+                "blue": 32,
                 "alpha": 255
             },
             "hotkey": "",
             "domain": "CLASSIFICATION",
-            "creation_date": "2023-11-20T06:46:19.890000",
+            "creation_date": "2023-11-23T08:18:49.779000",
             "is_empty": false,
             "is_anomalous": false
         },
@@ -153,14 +153,14 @@
             "_id": "7",
             "name": "5",
             "color": {
-                "red": 124,
-                "green": 250,
-                "blue": 130,
+                "red": 182,
+                "green": 194,
+                "blue": 237,
                 "alpha": 255
             },
             "hotkey": "",
             "domain": "CLASSIFICATION",
-            "creation_date": "2023-11-20T06:46:19.890000",
+            "creation_date": "2023-11-23T08:18:49.779000",
             "is_empty": false,
             "is_anomalous": false
         },
@@ -168,14 +168,14 @@
             "_id": "8",
             "name": "6",
             "color": {
-                "red": 112,
-                "green": 158,
-                "blue": 163,
+                "red": 230,
+                "green": 98,
+                "blue": 134,
                 "alpha": 255
             },
             "hotkey": "",
             "domain": "CLASSIFICATION",
-            "creation_date": "2023-11-20T06:46:19.890000",
+            "creation_date": "2023-11-23T08:18:49.779000",
             "is_empty": false,
             "is_anomalous": false
         },
@@ -183,14 +183,14 @@
             "_id": "9",
             "name": "7",
             "color": {
-                "red": 91,
-                "green": 48,
-                "blue": 201,
+                "red": 81,
+                "green": 61,
+                "blue": 42,
                 "alpha": 255
             },
             "hotkey": "",
             "domain": "CLASSIFICATION",
-            "creation_date": "2023-11-20T06:46:19.890000",
+            "creation_date": "2023-11-23T08:18:49.779000",
             "is_empty": false,
             "is_anomalous": false
         },
@@ -198,14 +198,14 @@
             "_id": "10",
             "name": "8",
             "color": {
-                "red": 145,
-                "green": 250,
-                "blue": 212,
+                "red": 175,
+                "green": 98,
+                "blue": 168,
                 "alpha": 255
             },
             "hotkey": "",
             "domain": "CLASSIFICATION",
-            "creation_date": "2023-11-20T06:46:19.890000",
+            "creation_date": "2023-11-23T08:18:49.779000",
             "is_empty": false,
             "is_anomalous": false
         },
@@ -213,14 +213,14 @@
             "_id": "11",
             "name": "9",
             "color": {
-                "red": 95,
-                "green": 153,
-                "blue": 196,
+                "red": 128,
+                "green": 147,
+                "blue": 192,
                 "alpha": 255
             },
             "hotkey": "",
             "domain": "CLASSIFICATION",
-            "creation_date": "2023-11-20T06:46:19.890000",
+            "creation_date": "2023-11-23T08:18:49.779000",
             "is_empty": false,
             "is_anomalous": false
         },
@@ -228,14 +228,14 @@
             "_id": "12",
             "name": "\u00d7",
             "color": {
-                "red": 31,
-                "green": 90,
-                "blue": 88,
+                "red": 84,
+                "green": 244,
+                "blue": 173,
                 "alpha": 255
             },
             "hotkey": "",
             "domain": "CLASSIFICATION",
-            "creation_date": "2023-11-20T06:46:19.890000",
+            "creation_date": "2023-11-23T08:18:49.779000",
             "is_empty": false,
             "is_anomalous": false
         },
@@ -243,14 +243,14 @@
             "_id": "13",
             "name": "\u00f7",
             "color": {
-                "red": 205,
-                "green": 8,
-                "blue": 139,
+                "red": 44,
+                "green": 185,
+                "blue": 179,
                 "alpha": 255
             },
             "hotkey": "",
             "domain": "CLASSIFICATION",
-            "creation_date": "2023-11-20T06:46:19.890000",
+            "creation_date": "2023-11-23T08:18:49.779000",
             "is_empty": false,
             "is_anomalous": false
         }

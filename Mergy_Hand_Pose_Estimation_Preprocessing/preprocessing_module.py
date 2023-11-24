@@ -48,12 +48,11 @@ class Preprocessing:
         self.left_pad = 50
         self.right_pad = 50
 
-    def get_current_image(self):
+    def get_current_image(self,x_8,y_8):
         # 엑셀 파일에서 데이터 읽기
-        df = pd.read_excel(self.excel_path)
+        # 액셀파일 x -> list 로 data값으로 읽어오는것으로 변경
 
         # 데이터를 5개 단위로 분할하여 평균값 계산
-        num_points = len(df)
         chunk_size = 3
         start_idx = 0
         avg_points = []  # 각 구간의 평균값 저장
@@ -61,29 +60,32 @@ class Preprocessing:
         def get_current_calculate_distance(point1, point2):
             return math.sqrt((point2[0] - point1[0])**2 + (point2[1] - point1[1])**2)
         
-        threshold_distance = 100  # 선을 그리기 위한 최소 거리
+        threshold_distance = 80  # 선을 그리기 위한 최소 거리
+        num_points = len(x_8)
 
         while start_idx < num_points:
             # 각 구간의 끝 인덱스 계산
             end_idx = min(start_idx + chunk_size, num_points)
 
-            # 현재 구간의 데이터 가져오기
-            chunk_df = df.iloc[start_idx:end_idx]
+            # 현재 구간의 x, y 좌표값 가져오기
+            chunk_x = x_8[start_idx:end_idx]
+            chunk_y = y_8[start_idx:end_idx]
 
             # 현재 구간의 x, y 좌표 평균값 계산
-            avg_x = chunk_df['x'].mean()
-            avg_y = chunk_df['y'].mean()
+            avg_x = sum(chunk_x) / len(chunk_x)
+            avg_y = sum(chunk_y) / len(chunk_y)
 
             # 평균값을 리스트에 추가
             avg_points.append((avg_x, avg_y))
-        
+
             # 다음 구간의 시작 인덱스 업데이트
             start_idx += chunk_size
+
     
         # 그래프 생성
         plt.figure(figsize=(8, 6))
-        plt.xlim(0, 640)
-        plt.ylim(0, 480)
+        plt.xlim(0,640)
+        plt.ylim(0,480)
         plt.axis('square')
     
         # 데이터 포인트 그리기 (평균값)
@@ -91,8 +93,9 @@ class Preprocessing:
             distance = get_current_calculate_distance(avg_points[i], avg_points[i + 1])
             if distance <= threshold_distance:  # 일정 거리 이하인 경우에만 선을 그립니다.
                 plt.scatter(avg_points[i][0], avg_points[i][1], color='white', marker='o', s=100)  # 평균값으로 하나의 점 그리기
-                plt.plot([avg_points[i][0], avg_points[i + 1][0]], [avg_points[i][1], avg_points[i + 1][1]], color='black', linewidth=5)  # 선으로 연결하기
+                plt.plot([avg_points[i][0], avg_points[i + 1][0]], [avg_points[i][1], avg_points[i + 1][1]], color='black', linewidth=6)  # 선으로 연결하기
 
+    
         # 마지막 평균값은 점만 그리기
         plt.scatter(avg_points[-1][0], avg_points[-1][1], color='white', marker='o', s=100)
     
@@ -137,8 +140,8 @@ class Preprocessing:
     def get_current_excel(self, save_frames, a, b):
         for i in range(0, save_frames, 1):
             self.sheet.cell(row=i + 2, column=1).value = i
-            self.sheet.cell(row=i + 2, column=2).value = 640*a[i]
-            self.sheet.cell(row=i + 2, column=3).value = 480*b[i]
+            self.sheet.cell(row=i + 2, column=2).value = a[i]
+            self.sheet.cell(row=i + 2, column=3).value = b[i]
         self.workbook.save('landmarks.xlsx')   
     
     def get_current_roi(self, binary_image):
@@ -180,8 +183,8 @@ class Preprocessing:
         original_roi = color_img[y:y+h, x:x+w]
         padded_image_white_bg = self.get_current_padding(original_roi, self.top_pad, self.bottom_pad, self.left_pad, self.right_pad)
         # 원하는 크기로 resize
-        desired_width = 224
-        desired_height = 224
+        desired_width = 150
+        desired_height = 150
         resized_roi = cv2.resize(padded_image_white_bg, (desired_width, desired_height))
 
         # 이미지를 저장할 경로와 파일명 설정
