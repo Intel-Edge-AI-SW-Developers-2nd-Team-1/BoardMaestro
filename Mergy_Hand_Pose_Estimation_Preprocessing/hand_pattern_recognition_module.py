@@ -62,7 +62,7 @@ class HandPatternRecognition:
 
             # detect finger status from angles
             for i in range(0, len(self.nodes), 1):
-                if self.angles[i] > 150:
+                if self.angles[i] > 160:
                     self.flags[i] = 1
                 else:
                     self.flags[i] = 0

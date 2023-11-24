@@ -16,6 +16,7 @@ class ImageInferencing:
 
         # Step 2. Read a model
         model = core.read_model(f'{model_path}/openvino.xml')
+        print(1)
 
         # Step 3. Set up input
         input_tensor = np.expand_dims(input_shape, 0)
@@ -30,9 +31,11 @@ class ImageInferencing:
         ppp.input().model().set_layout(ov.Layout('NCHW'))
         ppp.output().tensor().set_element_type(ov.Type.f32)
         model = ppp.build()
+        print(2)
 
         # Step 5. Loading model to the device
-        self.compiled_model = core.compile_model(model, device_name)
+        self.compiled_model = core.compile_model(model)
+        print(3)
 
         # Step 6. Loading json
         with open(f'{model_path}/label_schema.json') as f:

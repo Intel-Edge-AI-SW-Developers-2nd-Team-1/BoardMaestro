@@ -7,16 +7,16 @@ class Calculator(object):
     Class that help calculates math-expression.
     
     Instance : 
-        bracket : dict
-        op : dict
+        bracket :   dict
+        op :        dict
     
     Method :
-        is_not_value() : bool
-        split_proc() : string
-        is_valid() : bool
-        to_postfix_proc() : string
-        calc_proc() : float
-        eval_proc() : float or string
+        is_not_value() :        bool
+        split_proc() :          string
+        is_valid() :            bool
+        to_postfix_proc() :     string
+        calc_proc() :           float
+        eval_proc() :           float or string
     '''
     bracket = {'(' : 1, ')' : 2}
     op = {'+': add, '-': sub, '*': mul, '/': truediv}
@@ -25,8 +25,8 @@ class Calculator(object):
         '''
         Determinate that it is operator or not.
 
-        input : charactor(one size string)
-        output : true / false
+        input :     charactor(one size string)
+        output :    true / false
         '''
         if c in self.op: return True
         elif c in self.bracket: return True
@@ -37,8 +37,8 @@ class Calculator(object):
         Result splited with each signal/number with space, 
         can handle float, negative and brackets.
 
-        input : infix style expression
-        output : splited infix style expression
+        input :     infix style expression
+        output :    splited infix style expression
         '''
         res, value = '', ''
         for c in s:
@@ -56,8 +56,8 @@ class Calculator(object):
         Count brackets from expression.
         If open bracket != close_bracket, It is NOT valid expression.
         
-        input : infix style expression
-        output : true / false
+        input :     infix style expression
+        output :    true / false
         '''
         # It should find edge cases.. ex) 1+-0
         open_bracket = 0
@@ -72,8 +72,8 @@ class Calculator(object):
         '''
         Make it postfix style after parsing bracket and considering operator priority.
         
-        input : splited infix style expression
-        output : splited postfix style expression
+        input :     splited infix style expression
+        output :    splited postfix style expression
         '''
         st = []
         ret = ''
@@ -103,38 +103,34 @@ class Calculator(object):
         '''
         calculates postfix style expression.
         
-        input : splited postfix style expression
-        output : calculated result
+        input :     splited postfix style expression
+        output :    calculated result
         '''
         st = []
         tokens = s.split()
-        for tok in tokens:
-            if tok not in self.op:
-                st.append(float(tok))
-            else:
-                n1 = st.pop()
-                n2 = st.pop()
-                if tok == '/' and n1 == 0:
-                    return 'NAN'
+        try:
+            for tok in tokens:
+                if tok not in self.op:
+                    st.append(float(tok))
                 else:
-                    st.append(self.op[tok](n2, n1))
+                    n1 = st.pop()
+                    n2 = st.pop()
+                    if tok == '/' and n1 == 0:
+                        return 'NAN'
+                    else:
+                        st.append(self.op[tok](n2, n1))
+        except Exception :
+            return 'INVALID'
         return st.pop()
 
     def eval_proc(self, string):
         '''
         evaluates that the expression is valid or NOT and returns result.
         
-        input : infix style expression
-        output : calculated result or 'INVALID'
+        input :     infix style expression
+        output :    calculated result or 'INVALID'
         '''
         if self.is_valid(string): 
             return self.calc_proc(self.to_postfix_proc(self.split_proc(string)))
         else:
             return 'INVALID'
-
-
-'''Example Code
-calc = Calculator()
-expression = input("Enter math expression : ")
-print(calc.eval_proc(expression))
-'''
