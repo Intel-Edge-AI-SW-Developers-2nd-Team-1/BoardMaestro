@@ -11,6 +11,7 @@
 
 #include "main.h"
 #include "uart.h"
+#include "strlen.h"
 
 extern UART_HandleTypeDef huart2;
 
@@ -55,6 +56,9 @@ void uart_proc(void)
     if (uart_cbf != NULL) uart_cbf(p->buf);
 
     lcd_printf("%s", p->buf);
+
+    len = strlen(p->buf);
+    position = len+1;
 
     p->idx = 0;
     p->flag = false;
