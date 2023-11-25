@@ -130,6 +130,7 @@ class Calculator(object):
         input :     infix style expression
         output :    calculated result or 'INVALID'
         '''
+        if not len(string): return 'INVALID'
         if self.is_valid(string): 
             return self.calc_proc(self.to_postfix_proc(self.split_proc(string)))
         else:
