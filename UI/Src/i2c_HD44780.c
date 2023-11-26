@@ -4,6 +4,8 @@
 
 #include <stdarg.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include "strlen.h
 
 extern I2C_HandleTypeDef hi2c1;
 
@@ -254,6 +256,44 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
   if(GPIO_Pin == GPIO_PIN_3){
     if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_3) == GPIO_PIN_SET){
+	    lcd_send_cmd(0x10); // 커서를 왼쪽으로 이동
+	    char* message = "Leftward\r\n";
+	    HAL_UART_Transmit(&huart2, (uint8_t *)message, strlen(message), 0xffff);
+	    position--;
+	    // 현재 커서 위치(position)와 문자열의 17번째 문자를 비교하여 조건 확인
+	    char pos[32];
+	    sprintf(pos, "position = %d\r\n", position);
+	    HAL_UART_Transmit(&huart2, (uint8_t *)pos, strlen(pos), 0xffff);
+	    if(position == 16){
+		for(int i = 0; i < 24; ++i){
+		    lcd_send_cmd(0x10);
+		}
+	    }
+
+    }
+  }
+
+
+  if(GPIO_Pin == GPIO_PIN_0){
+    if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_0) == GPIO_PIN_SET){
+	    lcd_send_cmd(0x14); // 커서를 오른쪽으로 이동
+	    char* message = "Rightward\r\n";
+	    HAL_UART_Transmit(&huart2, (uint8_t *)message, strlen(message), 0xffff);
+	    position++;
+
+	    char pos[32];
+	    sprintf(pos, "position = %d\r\n", position);
+	    HAL_UART_Transmit(&huart2, (uint8_t *)pos, strlen(pos), 0xffff);
+	    if(position == 17){
+		for(int i = 0; i < 24; ++i){
+		    lcd_send_cmd(0x14);
+		}
+	    }
+
+    }
+  }
+}
+
 	lcd_send_cmd(0x10);
     }
  }
@@ -264,4 +304,3 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     }
   }
 }
-
