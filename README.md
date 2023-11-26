@@ -4,10 +4,12 @@
 * 실시간 영상처리로 얻은 자세에 대한 영상정보로부터 수식에 대한 결과를 계산하여 보여주는 것이 최종 목표입니다.
 
 ## High Level Design
-
 ![image](https://github.com/roby238/BoardMaestro/assets/45201672/aaeefcd4-a364-4b70-9625-3cac775e5cc1)
 
-## contributors
+## Sequence Diagram
+![Whole Sequence Diagram drawio](https://github.com/roby238/BoardMaestro/assets/45201672/b28c0dff-38d2-4396-9cba-d74d72cf9517)
+
+## Contributors
 
 **yeongdaekim(roby238)**
 - Project Leader
