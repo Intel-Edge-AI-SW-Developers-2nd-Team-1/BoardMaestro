@@ -5,7 +5,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "strlen.h"
+#include "strlen.h
 
 extern I2C_HandleTypeDef hi2c1;
 
@@ -290,6 +290,17 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		}
 	    }
 
+    }
+  }
+}
+
+	lcd_send_cmd(0x10);
+    }
+ }
+
+  f(GPIO_Pin == GPIO_PIN_0){
+    if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_0) == GPIO_PIN_SET){
+      lcd_send_cmd(0x14);
     }
   }
 }

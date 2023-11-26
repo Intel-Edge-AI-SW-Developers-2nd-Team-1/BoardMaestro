@@ -7,10 +7,6 @@
 
 ![image](https://github.com/roby238/BoardMaestro/assets/45201672/aaeefcd4-a364-4b70-9625-3cac775e5cc1)
 
-## Sequence Diagram
-
-![board_maestro drawio](https://github.com/Intel-Edge-AI-SW-Developers-2nd-Team-1/BoardMaestro/assets/45201672/7333e0a2-a110-4026-9cc9-c7b466e1bb2b)
-
 ## contributors
 
 **yeongdaekim(roby238)**
