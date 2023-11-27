@@ -37,10 +37,6 @@ class Preprocessing:
         self.result_counter = 0
         self.image_width = 640
         self.image_height = 480
-        self.top_pad = 50
-        self.bottom_pad = 50
-        self.left_pad = 50
-        self.right_pad = 50
         self.desired_width = desired_width
         self.desired_height = desired_height
 
@@ -77,7 +73,7 @@ class Preprocessing:
         plt.xlim(0, 640)
         plt.ylim(0, 480)
         plt.axis('square')
-        for i in range(len(avg_points) - 1):
+        for i in range(len(avg_points) - 4):
             distance = self.get_current_calculate_distance(avg_points[i], avg_points[i + 1])
             if distance <= threshold_distance:
                 plt.scatter(avg_points[i][0], avg_points[i][1], color='white', marker='o', s=100)
@@ -128,8 +124,12 @@ class Preprocessing:
         binary_img_inverted = cv2.bitwise_not(binary_img)
         x, y, w, h, black_roi = self.get_current_roi(binary_img_inverted)
         original_roi = color_img[y:y + h, x:x + w]
-        padded_image_white_bg = self.get_current_padding(original_roi, self.top_pad, self.bottom_pad, self.left_pad,
-                                                         self.right_pad)
+        if(w >= h):
+            padding_size = int((w-h)/2)
+            padded_image_white_bg = self.get_current_padding(original_roi, padding_size, padding_size, 0,0) 
+        else:
+            padding_size = int((h-w)/2)
+            padded_image_white_bg = self.get_current_padding(original_roi, 0, 0, padding_size,padding_size)
         resized_roi = cv2.resize(padded_image_white_bg, (self.desired_width, self.desired_height))
         save_path = f'./Result/Result_{self.result_counter}.jpg'
         cv2.imwrite(save_path, resized_roi)
