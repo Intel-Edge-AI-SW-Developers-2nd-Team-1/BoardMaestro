@@ -78,4 +78,5 @@ Endable list :
 3. Result
 
 
-![](/images/1.gif)
+![1](https://github.com/pjb8051/BoardMaestro/assets/143582470/137cdc54-c36e-4a0f-a116-42f9887f09df)
+
