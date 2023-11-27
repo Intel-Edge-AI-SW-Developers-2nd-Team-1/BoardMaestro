@@ -6,7 +6,8 @@ The LCD board diplays an array of numbers and letters that shows where the curso
 
 # How to run
 1. Installation IDE
-<br>
+
+   
 [STM32cubeIDE install][stm32] (Window / Linux / Mac)
 
 [stm32]: https://www.st.com/en/development-tools/stm32cubeide.html#get-software
@@ -18,7 +19,8 @@ The LCD board diplays an array of numbers and letters that shows where the curso
 
 3. STM32 code Run
 
-![](/images/run.png)
+![run](https://github.com/pjb8051/BoardMaestro/assets/143582470/219a6aae-040e-4d23-b5a4-4ae755e1adcb)
+
 
 4. Connect Bluetooth with PC
 
@@ -32,7 +34,8 @@ The LCD board diplays an array of numbers and letters that shows where the curso
 
 1-1 GPIO settings
 
-![](/images/GPIO_setting.png)
+![GPIO_setting](https://github.com/pjb8051/BoardMaestro/assets/143582470/06171568-49cf-4050-92ab-d5af98ad5a63)
+
 
 PC0 = GPIO_EXTI0 / Pull-down
 
@@ -40,21 +43,24 @@ PC3 = GPIO_EXTI3 / Pull-down
 
 1-2 I2C settings
 
-![](/images/i2c_setting.png)
+![i2c_setting](https://github.com/pjb8051/BoardMaestro/assets/143582470/65b2312b-dfc7-4e58-b843-9bc74479a65f)
+
 
 PB6 = SCL
 PB9 = SDA
 
 1-3 UART settings
 
-![](/images/uart_setting.png)
+![uart_setting](https://github.com/pjb8051/BoardMaestro/assets/143582470/c7225d91-f5ed-4ddc-95bd-8b5857868dc4)
+
 
 USART2 = Asynchronous
 Baud Rate = 9600 Bits/s
 
 1-4 NVIC settings
 
-![](/images/nvic_setting.png)
+![nvic_setting](https://github.com/pjb8051/BoardMaestro/assets/143582470/ee336114-41ed-42d5-ad9e-8266dd6d527a)
+
 
 Endable list : 
     * EXTI line0 interrupt 
