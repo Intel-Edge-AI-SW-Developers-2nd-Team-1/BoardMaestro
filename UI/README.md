@@ -10,7 +10,8 @@ The LCD board diplays an array of numbers and letters that shows where the curso
 
 > 1-1 GPIO settings
 
-![](/images/GPIO_setting.png)
+![GPIO_setting](https://github.com/pjb8051/BoardMaestro/assets/143582470/1b0f6fb3-e561-4f9c-9071-ec4fd2120ebd)
+
 >
 > PC0 = GPIO_EXTI0 / Pull-down
 > PC3 = GPIO_EXTI3 / Pull-down
