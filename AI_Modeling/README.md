@@ -43,54 +43,58 @@ pip install torch==1.13.1 torchvision==0.14.1 --extra-index-url https://download
 pip install otx[full]
 ```
 
-## OpenVINO hello_classification
+# AI_Modeling
+
+## Download Dataset
+
+### Links
+
+* Handwritten math symbols dataset
+    https://www.kaggle.com/datasets/xainano/handwrittenmathsymbols
+
+* A command that is able to download in Server
 ```
-https://raw.githubusercontent.com/openvinotoolkit/openvino/master/samples/python/hello_classification/hello_classification.py
+scp -r /home/<userid>/Downloads/dataset/ <userid>@xxx.xxx.xxx.xxx:/dir01/dir02/
 ```
 
-## Dataset
+### Check number of files
 
 A command combination that shows number of files under given directory.
 ```bash
 find ./ -maxdepth 2 –type d | while read –r dir; do printf “%s:\t” “$dir”; find “$dir” –type f | wc –l; done
 ```
 
-### Links
-* Flowers:
-    http://download.tensorflow.org/example_images/flower_photos.tgz
 
-* Dogs & cats:
-    https://drive.google.com/file/d/1_ItEl2QLWhYtaTeyOP90jCZmB2ofcQW0/view?usp=drive_link
+## Training
 
-# AI_MODELING
+### Build
 
-### Dataset downlode
-
-### Dataset prepare  if)로컬 -> 서버
-```
-scp -r /home/kcg0118/Downloads/dataset/ <id>@xxx.xxx.xxx.xxx:/dir01/dir02/
-```
-
-### build
 ```
 otx build --train-data-roots /dir01/dir02/dataset/ --model MobileNet-V3-large-1x --workspace ./MobileNet-V3-large-1x
 ```
-### train
+
+### Train
+
 ```
 cd MobileNet-V3-large-1x
 otx train params --learning_parameters.batch_size 16 --learning_parameters.num_iters 10
 ```
-### eval
+
+### Eval
+
 ```
 otx eval --test-data-roots ./splitted_dataset/val/ --load-weight ./outputs/latest_trained_model/logs/best_epoch_8.pth
 ```
-### export
+
+### Export
+
 ```
 otx export
 ```
 
-## AI_MODEL Create
+## Model Generated
+
 ```
 cd outputs/20xx.mm.dd_hhmmss_export/openvino
-3개의 파일 생성
 ```
+Generated 3 files
