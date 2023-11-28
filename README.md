@@ -1,7 +1,7 @@
 # Project : Board Maestro
 
 * 칠판 앞에서 수식을 쓰는 모션을 취할 때, 수식을 인식하여 계산해주는 시스템
-* 실시간 영상처리로 얻은 자세에 대한 영상정보로부터 수식에 대한 결과를 계산하여 보여주는 것이 최종 목표입니다.
+* 실시간 영상처리로 얻은 자세에 대한 영상정보로부터 수식에 대한 결과를 계산하여 보여주는 것이 최종 목표  
 
 ## High Level Design
 ![image](https://github.com/roby238/BoardMaestro/assets/45201672/aaeefcd4-a364-4b70-9625-3cac775e5cc1)
@@ -41,19 +41,40 @@
 
 ## Clone code
 
-* (각 팀에서 프로젝트를 위해 생성한 repository에 대한 code clone 방법에 대해서 기술)
+* Enter below code to run this project.
 
 ```shell
-git clone https://github.com/xxx/yyy/zzz
+git clone https://github.com/Intel-Edge-AI-SW-Developers-2nd-Team-1/BoardMaestro.git
 ```
 
 ## Prerequite
 
-* (프로잭트를 실행하기 위해 필요한 dependencies 및 configuration들이 있다면, 설치 및 설정 방법에 대해 기술)
+* First, you should set OTX(Openvino Training Extensions). Install OTX dependency through below code.
 
 ```shell
-python -m venv .venv
-source .venv/bin/activate
+sudo apt update
+sudo apt-get install g++ freeglut3-dev build-essential libx11-dev libxmu-dev libxi-dev libglu1-mesa libglu1-mesa-dev gcc-multilib dkms mesa-utils
+sudo apt upgrade
+```
+
+* Second, you need CUDA 11.7 version. Note, link below is for Ubuntu20.04. For other versions please refer CUDA Toolkit 11.7 Downloads.
+
+```shell
+cd ~/Downloads/
+wget https://developer.download.nvidia.com/compute/cuda/11.7.0/local_installers/cuda_11.7.0_515.43.04_linux.run
+sudo sh cuda_11.7.0_515.43.04_linux.run
+```
+
+* Third, create new python virtual environment for this project.
+
+```shell
+# Create virtual env.
+python3 -m venv board_maestro
+
+# Activate virtual env.
+source board_maestro/bin/activate
+
+# Install requirements.
 pip install -r requirements.txt
 ```
 
