@@ -1,7 +1,10 @@
 # Project : Board Maestro
 
-* 칠판 앞에서 수식을 쓰는 모션을 취할 때, 수식을 인식하여 계산해주는 시스템
-* 실시간 영상처리로 얻은 자세에 대한 영상정보로부터 수식에 대한 결과를 계산하여 보여주는 것이 최종 목표  
+* 칠판 앞이나 어디든지 수식을 쓰는 모션을 취할 때, 수식을 인식하여 계산해주는 시스템
+  (In front of board and anywhere, when you do motion writing math symbol and number, this system detects and calculates them.)
+
+* 실시간 영상처리로 얻은 자세에 대한 영상정보로부터 수식에 대한 결과를 계산하여 보여주는 것이 최종 목표
+  (The goal is to calculate and display the results of the formula from the image information about the posture obtained through real-time image processing.)
 
 ## High Level Design
 ![image](https://github.com/roby238/BoardMaestro/assets/45201672/aaeefcd4-a364-4b70-9625-3cac775e5cc1)
@@ -80,7 +83,9 @@ pip install -r requirements.txt
 
 ## Steps to run
 
-* (프로젝트 실행방법에 대해서 기술, 특별한 사용방법이 있다면 같이 기술)
+* change directory to 'BoardMaestro/'.
+* Activate virtual environment and go to 'demo_test/'.
+* Run demo.py file.
 
 ```shell
 cd ~/BoardMaestro
@@ -95,7 +100,7 @@ python demo.py
 ![image](https://github.com/Intel-Edge-AI-SW-Developers-2nd-Team-1/BoardMaestro/assets/45201672/4d8622ed-c117-4ec8-8002-05e1e885c265)
 
 ## PR rules
-- part, milestone, details 포함하여 PR
+- Do PR with part, milestone, details PR.
   * Title :
   ```
   [<your part name>] refered from each milestone 
