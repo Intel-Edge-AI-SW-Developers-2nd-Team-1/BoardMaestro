@@ -1,30 +1,85 @@
-### 정리
-- 11.17 일 정리
-- Pose -> Mediapipe 을 이용해서 좌표값 추출
-- Pose -> Handwritting  을 인식을 위해서 오른쪽 손목 좌표 엑셀값으로 저장
-- 숫자 및 Handwritting 을 하는 도중에 쓰레기값(다른 좌표)가 있어서 키보드 인터럽트로 숫자 '0'을 쓰는 그림
-- 숫자 인식을 하는 pretraining 모델에 Mediapipe 를 통해서 나온 숫자 그림을 넣어서 인식을 할수있는지 확인
-- 키보드 인터럽트 보완점으로 motion detection program 을 이용해서 오른쪽 손목 왼쪽 손목의 길이가 8 미만일 경우 토글 방식으로 인터럽트 발생
-- 보완할 점
-- 각 pretraining 모델에 들어갈 다양한 그림을 넣어서 잘 그려지는지 확인
-- 인터럽트 방식을 조금 더 편안한 방식으로 구현하는 법 생각해보기 
-
-
-- 11.18 일 정리
-- 정확한 숫자를 그리기위해 이미지 전처리방식으로 각 좌표의 chunk size을 정해서 (ex:5) 그의 평균값만 점찍게하여서 숫자를 그리게했다.
-- 6, 9 인식이 잘 안되므로 추가적인 이미지 전처러 방식이 필요함.
-- 위의 이유로 알고리즘 개발
-- Fps을 늘리기위해(노드를 많이 찍기위해-정확도증가) 미디어파이프 인퍼런싱 하는 방식 CPU -> GPU 전환 방식 찾음
+## Documentation
+### Description
+- The external modules use opencv and matplotlib.
 ```
-BaseOptions = mp.tasks.BaseOptions
-base_options = python.BaseOptions(model_asset_path=model_path, delegate=BaseOptions.Delegate.GPU)
-options = vision.PoseLandmarkerOptions(
-    base_options=base_options,
-    output_segmentation_masks=True)
-detector = vision.PoseLandmarker.create_from_options(options)
+    Class that help Image preprocessing and Camera real-time processing.
+ 
+    Instance : 
+        self.result_counter:                        int
+        self.image_width:                           int
+        self.image_height:                          int
+        self.top_pad:                               int
+        self.bottom_pad:                            int
+        self.left_pad:                              int
+        self.right_pad:                             int
+        self.desired_width:                         int
+        self.desired_height:                        int
+
+    Method :
+        __init__():                                 None
+        get_current_calculate_distance():           None
+        get_current_image():                        None
+        get_current_roi():                          float
+        get_current_resize():                       None
+        get_current_padding():                      float
 
 ```
-- 보완할 점 여전히 6, 9 이런거는 인식문제 개선이 필요함을 느낌
-- 원할한 작업을 위해 모델 학습된 PC에 SSH 로 파일을 전송
-- 인식을 위해 선두께 3 -> 10 으로 상향 조정
 
+### Flow
+- For example, let put the image below..
+
+#### Pre-processing
+
+![number](https://github.com/simpleis6est/BoardMaestro/assets/143490860/81e57962-b885-4917-8f4a-046e28a5e159)
+
+1. To remove floating values, obtain the average coordinates of 5 nodes and draw a point.
+2. To remove the messy part at the bottom, erase the three nodes behind and make a dot.
+3. Before connecting the coordinates, find the distance between nodes of each captured point.
+4. When connecting each point with a line, if the distance is more than a certain distance, it is recognized as a distant part and the two points are not connected.
+5. Save the drawn graph.
+
+- The image above was created in the same order as above.
+- After that, image preprocessing begins.
+
+#### First 
+- We need to find a specific Roi to find the exact object.
+- As a method, Roi is extracted using exhaustive search.
+- Then it will appear like the image below.
+
+![image](https://github.com/simpleis6est/BoardMaestro/assets/143490860/088206be-f3c4-4a8e-8f33-f5ff50dfa92e)
+
+#### Second
+- Problems occurred in the image pre-processing process for certain characters such as 1 or -, so we padded areas with specific roi.
+
+- Result 1
+
+![Result_1](https://github.com/simpleis6est/BoardMaestro/assets/143490860/d1dfed0e-a74d-40ac-84fc-53d4f4b4915a)
+
+- However, because this padding task was different from the trained dataset, a different padding method was used. Since that method knows the height and width of a specific Roi, it takes the larger of the height and width as the reference point and pads it to the extent of the deficiency.
+- Like the picture below
+
+- Result -
+
+![Result_7](https://github.com/simpleis6est/BoardMaestro/assets/143490860/99540634-eac9-4fc1-b4cf-befe39a39c4e)
+
+#### Third
+- For photos to be included in the AI model, we change them to a size that matches the model input data.
+- Resize was performed to match the model input data (150,150,3).
+
+#### Finally
+- Finally we were able to obtain the image below.
+
+-Result 2
+
+![Result_1](https://github.com/simpleis6est/BoardMaestro/assets/143490860/66d9e32a-7f58-4cab-8e2c-6c9dc2c11518)
+
+### Usage
+- Example Code
+
+```python
+preprocessing = Preprocessing(desired_width, desired_height)
+str2 = f'counter: {preprocessing.result_counter}'
+# inferencing and make string
+string_image = cv2.imread(f'./Result/Result_{preprocessing.result_counter - 1}.jpg')
+string_buf.append(f'{infer.get_inferencing_result(string_image, False)}')
+```
