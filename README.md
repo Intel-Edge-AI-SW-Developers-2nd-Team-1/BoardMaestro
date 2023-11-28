@@ -92,25 +92,24 @@ python demo.py
 
 ## Output
 
-![./result.jpg](./result.jpg)
+![image](https://github.com/Intel-Edge-AI-SW-Developers-2nd-Team-1/BoardMaestro/assets/45201672/4d8622ed-c117-4ec8-8002-05e1e885c265)
 
 ## PR rules
 - part, milestone, details 포함하여 PR
   * Title :
   ```
-  [<your part name>] 해당 milestone 참조
+  [<your part name>] refered from each milestone 
   ```
   * Description :
   ```
   details:
-  
-  1. 항목1
-  2. 항목2
-  3. 항목3
+      1. task1
+      2. task2
+      3. task3
   ```
 ## Commit rules
 - commit message: 
   ```
-  git commit -m "updated code.abc by <your id>"
+  git commit -m "updated code.abc by <your id>" -s <signing id>
   ```
 
