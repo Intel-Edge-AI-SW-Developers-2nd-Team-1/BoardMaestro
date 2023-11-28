@@ -9,7 +9,8 @@
 ### Flow
 - For example, let's take the photo below, which is one frame from a camera, and insert it into the model.
 
-![Alt text](KakaoTalk_20231127_130957018_03.jpg)
+![KakaoTalk_20231127_130957018_03](https://github.com/Intel-Edge-AI-SW-Developers-2nd-Team-1/BoardMaestro/assets/143490860/71279fda-ccfa-49fb-a185-640f487e4db5)
+
 #### First 
 - Load the Hand Pose estimation model.
 #### Second
@@ -17,6 +18,6 @@
 #### Finally
 - Outputs an inferencing image. In that case, the image below is output. It does this every frame. Proceed.
 
-![Alt text](<스크린샷 2023-11-27 133212.png>)
+![스크린샷 2023-11-27 133212](https://github.com/Intel-Edge-AI-SW-Developers-2nd-Team-1/BoardMaestro/assets/143490860/037dbf88-bb16-4b67-b310-446b71374c09)
 
 ### Usage
