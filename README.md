@@ -91,7 +91,7 @@ cd ~/BoardMaestro
 source board_maestro/bin/activate
 
 # Run bash command.
-./
+./run.sh
 ``` 
 
 ## Output
