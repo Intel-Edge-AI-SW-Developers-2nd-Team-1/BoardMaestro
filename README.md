@@ -52,23 +52,7 @@ git clone https://github.com/Intel-Edge-AI-SW-Developers-2nd-Team-1/BoardMaestro
 
 ## Prerequite
 
-* First, you should set OTX(Openvino Training Extensions). Install OTX dependency through below code.
-
-```shell
-sudo apt update
-sudo apt-get install g++ freeglut3-dev build-essential libx11-dev libxmu-dev libxi-dev libglu1-mesa libglu1-mesa-dev gcc-multilib dkms mesa-utils
-sudo apt upgrade
-```
-
-* Second, you need CUDA 11.7 version. Note, link below is for Ubuntu20.04. For other versions please refer CUDA Toolkit 11.7 Downloads.
-
-```shell
-cd ~/Downloads/
-wget https://developer.download.nvidia.com/compute/cuda/11.7.0/local_installers/cuda_11.7.0_515.43.04_linux.run
-sudo sh cuda_11.7.0_515.43.04_linux.run
-```
-
-* Third, create new python virtual environment for this project.
+* Create new python virtual environment for this project.
 
 ```shell
 # Create virtual env.
@@ -83,17 +67,32 @@ pip install -r requirements.txt
 
 ## Steps to run
 
-* change directory to 'BoardMaestro/'.
-* Activate virtual environment and go to 'demo_test/'.
-* Run demo.py file.
+1. How to run with python file.
+  * Change directory to 'BoardMaestro/'.
+  * Activate virtual environment created previously and go to 'demo_test/'.
+  * Run demo.py file.
 
 ```shell
+# Go to root directory of project.
 cd ~/BoardMaestro
-source .venv/bin/activate
+source board_maestro/bin/activate
 
+# Run demo.py file.
 cd /demo_test/
 python demo.py
 ```
+
+2. How to run with bash file
+  * Just enter below code at root directory of project.
+
+```shell
+# Go to root directory of project.
+cd ~/BoardMaestro
+source board_maestro/bin/activate
+
+# Run bash command.
+./
+``` 
 
 ## Output
 
