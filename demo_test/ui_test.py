@@ -15,7 +15,7 @@ from PyQt5.QtWidgets import QApplication, QLabel, QWidget, QVBoxLayout, QPushBut
 from PyQt5.QtGui import QFont
 
 from hand_pose_estimation.hand_pose_estimation_module import HandPoseEstimation
-from hand_pose_estimation.hand_pattern_recognition_module import HandPatternRecognition
+from hand_pattern_recognition.hand_pattern_recognition_module import HandPatternRecognition
 from ai_modeling.image_inferencing_module import ImageInferencing
 from image_preprocessing.preprocessing_module import Preprocessing
 from expression_calculating.calculator_module import Calculator
