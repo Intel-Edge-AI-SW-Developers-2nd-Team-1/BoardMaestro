@@ -1,3 +1,3 @@
-source .venv/bin/activate
+#source .venv/bin/activate
 export QT_QPA_PLATFORM=wayland
 python ./demo_test/ui_test.py
