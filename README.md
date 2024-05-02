@@ -79,7 +79,7 @@ pip install -r requirements.txt
 # Go to root directory of project.
 source board_maestro/bin/activate
 
-# Run demo.py file.
+# Run ui_test.py file.
 cd /demo_test/
 python ui_test.py
 ```
