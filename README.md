@@ -55,6 +55,9 @@ git clone https://github.com/Intel-Edge-AI-SW-Developers-2nd-Team-1/BoardMaestro
 * Create new python virtual environment for this project.
 
 ```shell
+# Start directory
+cd ./BoardMaestro
+
 # Create virtual env.
 python3 -m venv board_maestro
 
@@ -74,12 +77,11 @@ pip install -r requirements.txt
 
 ```shell
 # Go to root directory of project.
-cd ~/BoardMaestro
 source board_maestro/bin/activate
 
 # Run demo.py file.
 cd /demo_test/
-python demo.py
+python ui_test.py
 ```
 
 2. How to run with bash file
