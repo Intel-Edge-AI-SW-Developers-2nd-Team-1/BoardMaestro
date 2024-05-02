@@ -2,7 +2,7 @@ from concurrent.futures.thread import _worker
 import cv2
 import time
 import numpy as np
-import bluetooth
+#import bluetooth
 import threading
 
 import sys
@@ -19,7 +19,7 @@ from hand_pattern_recognition.hand_pattern_recognition_module import HandPattern
 from ai_modeling.image_inferencing_module import ImageInferencing
 from image_preprocessing.preprocessing_module import Preprocessing
 from expression_calculating.calculator_module import Calculator
-from user_interface.ble_interface import BluetoothWorker
+#from user_interface.ble_interface import BluetoothWorker
 
 class App(QWidget):
     def __init__(self):
@@ -55,7 +55,7 @@ class App(QWidget):
         self.save_frames = 0
 
         # call HandPoseEstimation
-        model_path = '../model'
+        model_path = './ai_modeling/model'
         self.hand_pose_estimation = HandPoseEstimation(model_path)
 
         # call HandPatternRecognition class
@@ -88,14 +88,14 @@ class App(QWidget):
     
     def initUI(self):
 
-        self.worker = BluetoothWorker()
+        #self.worker = BluetoothWorker()
         #self.worker.data_received.connect(self.update_str_buf)
 
-        send_thread = threading.Thread(target=self.worker.send_data)
-        send_thread.start()
+        #send_thread = threading.Thread(target=self.worker.send_data)
+        #send_thread.start()
 
-        receive_thread = threading.Thread(target=self.worker.receive_data)
-        receive_thread.start()
+        #receive_thread = threading.Thread(target=self.worker.receive_data)
+        #receive_thread.start()
 
         #font size
         self.font_size = 50
@@ -206,7 +206,7 @@ class App(QWidget):
                         print("Error : fail to acesse preprocess")
 
                     # inferencing and make string
-                    string_image = cv2.imread(f'./Result/Result_{self.preprocessing.result_counter - 1}.jpg')
+                    string_image = cv2.imread(f'./demo_test/Result/Result_{self.preprocessing.result_counter - 1}.jpg')
                     self.string_buf.append(f'{self.infer.get_inferencing_result(string_image, False)}')
                     self.str_buf = "".join(self.string_buf)
                     print(self.str_buf)
@@ -252,13 +252,13 @@ class App(QWidget):
                     self.execute_flag = False
 
         if self.preprocessing.result_counter == 0:
-            img3 = cv2.imread('./intel_logo.png')
+            img3 = cv2.imread('./demo_test/intel_logo.png')
             convert_img = cv2.resize(img3,(450,450))
             convert_img = cv2.cvtColor(convert_img,cv2.COLOR_BGR2RGB)
             h, w, c = convert_img.shape
             img2 = QImage(convert_img.data, w, h, w * c, QImage.Format_RGB888)
         else:
-            show_img = cv2.imread(f'./Result/Result_{self.preprocessing.result_counter-1}.jpg')
+            show_img = cv2.imread(f'./demo_test/Result/Result_{self.preprocessing.result_counter-1}.jpg')
             show_new_img = cv2.resize(show_img,(450,450))
             h, w, c = show_new_img.shape
             img2 = QImage(show_new_img.data, w, h, w * c, QImage.Format_RGB888)
@@ -275,7 +275,7 @@ class App(QWidget):
         else:
             self.label6.setText(str(self.calc.eval_proc(self.str_buf)))
 
-        self.worker.callstring(self.str_buf)  # BluetoothWorker 클래스의 callstring 메소드 호출하여 str_buf 전달
+        #self.worker.callstring(self.str_buf)  # BluetoothWorker 클래스의 callstring 메소드 호출하여 str_buf 전달
         # show process time and fps
         process_time = time.time() - start_time
         FPS = 1 / process_time
