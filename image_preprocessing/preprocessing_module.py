@@ -83,7 +83,7 @@ class Preprocessing:
         plt.axis('off')
         plt.gca().invert_xaxis()
         plt.gca().invert_yaxis()
-        plt.savefig('number.png', bbox_inches='tight', pad_inches=0)
+        plt.savefig('./demo_test/number.png', bbox_inches='tight', pad_inches=0)
         plt.close()
 
     def get_current_roi(self, binary_image):
@@ -119,8 +119,8 @@ class Preprocessing:
         input : None
         output : None
         '''
-        color_img = cv2.imread('number.png')
-        binary_img = cv2.imread('number.png', cv2.IMREAD_GRAYSCALE)
+        color_img = cv2.imread('./demo_test/number.png')
+        binary_img = cv2.imread('./demo_test/number.png', cv2.IMREAD_GRAYSCALE)
         binary_img_inverted = cv2.bitwise_not(binary_img)
         x, y, w, h, black_roi = self.get_current_roi(binary_img_inverted)
         original_roi = color_img[y:y + h, x:x + w]
@@ -131,7 +131,7 @@ class Preprocessing:
             padding_size = int((h-w)/2)
             padded_image_white_bg = self.get_current_padding(original_roi, 0, 0, padding_size,padding_size)
         resized_roi = cv2.resize(padded_image_white_bg, (self.desired_width, self.desired_height))
-        save_path = f'./Result/Result_{self.result_counter}.jpg'
+        save_path = f'./demo_test/Result/Result_{self.result_counter}.jpg'
         cv2.imwrite(save_path, resized_roi)
         self.result_counter += 1
 
