@@ -22,13 +22,13 @@ from expression_calculating.calculator_module import Calculator
 #from user_interface.ble_interface import BluetoothWorker
 
 class App(QWidget):
-    def __init__(self):
+    def __init__(self, w, h):
         super().__init__()
         self.title = 'Hand Draw Formula'
         self.left = 10
         self.top = 50
-        self.width = 1900
-        self.height = 1000
+        self.width = w
+        self.height = h
         self.initUI()
 
         # define x,y,z for saving key point
@@ -87,36 +87,28 @@ class App(QWidget):
 
     
     def initUI(self):
-
-        #self.worker = BluetoothWorker()
-        #self.worker.data_received.connect(self.update_str_buf)
-
-        #send_thread = threading.Thread(target=self.worker.send_data)
-        #send_thread.start()
-
-        #receive_thread = threading.Thread(target=self.worker.receive_data)
-        #receive_thread.start()
-
+        self.ratio_w, self.ratio_h = self.width / 1920, self.height / 1000
+        
         #font size
-        self.font_size = 50
-
+        self.font_size = int(50 * self.ratio_w)
+        
         #label(1~6)
         self.label1 = QLabel(self)
         self.label1.move(10, 10)
-        self.label1.resize(1280, 960)
+        self.label1.resize(int(1280 * self.ratio_w), int(960 * self.ratio_h))
 
         self.label2 = QLabel(self)
-        self.label2.move(1350, 20)
-        self.label2.resize(450, 450)
+        self.label2.move(int(1350 * self.ratio_w), int(20 * self.ratio_h))
+        self.label2.resize(int(450 * self.ratio_w), int(450 * self.ratio_h))
 
         self.label3 = QLabel('Current formula  ', self)
-        self.label3.move(1350, 500)
+        self.label3.move(int(1350 * self.ratio_w), int(500 * self.ratio_h))
         self.label4 = QLabel('None                     ', self)
-        self.label4.move(1350, 550)
+        self.label4.move(int(1350 * self.ratio_w), int(550 * self.ratio_h))
         self.label5 = QLabel('Result : ', self)
-        self.label5.move(1350, 800)
+        self.label5.move(int(1350 * self.ratio_w), int(800 * self.ratio_h))
         self.label6 = QLabel('INVAILD                  ', self)
-        self.label6.move(1350, 850)
+        self.label6.move(int(1350 * self.ratio_w), int(850 * self.ratio_h))
 
         self.set_font()
 
@@ -145,7 +137,7 @@ class App(QWidget):
 
         # detect hand landmark
         hand_landmarker_result, annotated_image = self.hand_pose_estimation.get_hand_pose_result(frame, True)
-        annotated_image = cv2.resize(annotated_image,(1280,960))
+        annotated_image = cv2.resize(annotated_image,(int(1280 * self.ratio_w), int(960 * self.ratio_h)))
 
         # show detection_result to visible
         cv2.putText(annotated_image, self.str, (5, 50), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 0), 10)
@@ -253,13 +245,13 @@ class App(QWidget):
 
         if self.preprocessing.result_counter == 0:
             img3 = cv2.imread('./demo_test/intel_logo.png')
-            convert_img = cv2.resize(img3,(450,450))
+            convert_img = cv2.resize(img3,(int(450 * self.ratio_w),int(450 * self.ratio_h)))
             convert_img = cv2.cvtColor(convert_img,cv2.COLOR_BGR2RGB)
             h, w, c = convert_img.shape
             img2 = QImage(convert_img.data, w, h, w * c, QImage.Format_RGB888)
         else:
             show_img = cv2.imread(f'./demo_test/Result/Result_{self.preprocessing.result_counter-1}.jpg')
-            show_new_img = cv2.resize(show_img,(450,450))
+            show_new_img = cv2.resize(show_img,(int(450 * self.ratio_w), int(450 * self.ratio_h)))
             h, w, c = show_new_img.shape
             img2 = QImage(show_new_img.data, w, h, w * c, QImage.Format_RGB888)
         pixmap2 = QPixmap.fromImage(img2)
@@ -287,7 +279,9 @@ class App(QWidget):
         cv2.destoryAllWindows()
 
 main = QApplication(sys.argv)
-ex = App()
+main_rect = main.desktop().screenGeometry()
+width, height = main_rect.width(), main_rect.height()
+ex = App(width, height)
 ex.close_windows
 sys.exit(main.exec_())
 
