@@ -93,10 +93,10 @@ class Preprocessing:
         input : binary image
         output : x_min ,y_min ,width, height for Roi
         '''
-        x_min = float('inf')
-        x_max = float('-inf')
-        y_min = float('inf')
-        y_max = float('-inf')
+        x_min = 2000
+        x_max = -2000
+        y_min = 2000
+        y_max = -2000
         height, width = binary_image.shape[:2]
         for i in range(width):
             for j in range(height):
