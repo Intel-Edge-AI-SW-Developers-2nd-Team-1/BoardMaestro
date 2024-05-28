@@ -66,7 +66,14 @@ class HandPatternRecognition:
         input : length of a, b, c
         output : Angle of C
         '''
-        return math.acos((a ** 2 + b ** 2 - c ** 2) / (2 * a * b)) / 3.14 * 180
+        if a == 0 or b == 0:
+            return math.pi
+
+        val = (a ** 2 + b ** 2 - c ** 2) / (2 * a * b)
+        val = max(-1.0, min(1.0, val))
+        res = math.acos(val) / math.pi * 180
+
+        return res
 
     def get_node_angle(self):
         """Calculate each nodes angle"""
