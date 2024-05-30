@@ -33,7 +33,7 @@ class App(QWidget):
         self.width = w
         self.height = h
 
-        self.cap = cv2.VideoCapture(1)
+        self.cap = cv2.VideoCapture(0)
 
         self.initUI() 
         
@@ -68,7 +68,7 @@ class App(QWidget):
                                pd_score_thresh=0.5, pd_nms_thresh=0.3,
                                use_lm=True,
                                lm_device='CPU',
-                               lm_score_threshold=0.7,
+                               lm_score_threshold=0.3,
                                use_gesture=False,
                                crop=True)
  
@@ -134,7 +134,7 @@ class App(QWidget):
 
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_images)
-        self.timer.start(10)
+        self.timer.start(5)
 
         # Print some stats
         #print(f"# palm detection inferences : {nb_pd_inferences}")
