@@ -15,7 +15,7 @@ from PyQt5.QtGui import QImage, QPixmap
 from PyQt5.QtWidgets import QApplication, QLabel, QWidget, QVBoxLayout, QPushButton, QTextEdit
 from PyQt5.QtGui import QFont
 
-import tools.mediapipe_utils as mpu
+from tools import mediapipe_utils as mpu
 from tools.FPS import FPS, now
 from hand_pose_estimation.hand_pose_estimation_module import HandPoseEstimation
 from hand_pose_estimation.hand_tracker_module import HandTracker
@@ -72,7 +72,7 @@ class App(QWidget):
                                use_gesture=False,
                                crop=True)
  
-        self.fps = FPS(mean_nb_frames=20)
+        self.fps = FPS(mean_nb_frames=30)
         
         self.nb_pd_inferences = 0
         self.nb_lm_inferences = 0
@@ -336,8 +336,8 @@ class App(QWidget):
         self.fps.display(annotated_frame, orig=(int((1280 * 0.72) * self.ratio_w), 50), color=(240,180,100))
         
         # show detection_result to visible
-        cv2.putText(annotated_frame, self.str, (5, 100), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 0), 10)
-        cv2.putText(annotated_frame, self.str2, (5, 50), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 0), 5)
+        cv2.putText(annotated_frame, self.str, (5, 100), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 0), 5)
+        cv2.putText(annotated_frame, self.str2, (5, 50), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 0), 1)
 
         h, w, c = annotated_frame.shape
         img1 = QImage(annotated_frame.data, w, h, w * c, QImage.Format_BGR888)
