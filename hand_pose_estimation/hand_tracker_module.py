@@ -1,9 +1,9 @@
 import numpy as np
 from collections import namedtuple
-import mediapipe_utils as mpu
+from tools import mediapipe_utils as mpu
 import cv2
 from pathlib import Path
-from FPS import FPS, now
+from tools.FPS import FPS, now
 import argparse
 import os
 from openvino.runtime import Core
