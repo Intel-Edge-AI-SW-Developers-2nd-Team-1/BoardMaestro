@@ -21,6 +21,7 @@ class Calculator(object):
     bracket = {'(' : 1, ')' : 2}
     op = {'+': add, '-': sub, '*': mul, '/': truediv}
     func = {'s': math.sin, 'c': math.cos, 't': math.tan, 'l': math.log, 'r': math.sqrt}
+    cons = {'p': math.pi}
 
     def is_not_value(self, c):
         '''
@@ -30,8 +31,9 @@ class Calculator(object):
         output :    true / false
         '''
         if c in self.op: return True
-        if c in self.func: return True
+        elif c in self.func: return True
         elif c in self.bracket: return True
+        elif c in self.cons: return False
         return False
 
     def split_proc(self, s):
@@ -53,7 +55,10 @@ class Calculator(object):
                     res += c + ' '
                     value = ''
             else:
-                value += c
+                if c in self.cons:
+                    value += str(self.cons[c])
+                else:
+                    value += c
             prev_c = c
         res += value
         return res
@@ -104,6 +109,8 @@ class Calculator(object):
                 while st and st[-1] not in ['(', '*', '/']:
                     ret += st.pop() + ' '
                 st.append(tok)
+            elif tok in self.cons:
+                ret += tok + ' '
             else:
                 ret += tok + ' '
         while st:
@@ -124,6 +131,8 @@ class Calculator(object):
                 if tok in self.func:
                     n = st.pop()
                     st.append(self.func[tok](n))
+                elif tok in self.cons:
+                    st.append(self.cons[tok])
                 elif tok not in self.op:
                     st.append(float(tok))
                 else:
@@ -134,6 +143,7 @@ class Calculator(object):
                     st.append(self.op[tok](n2, n1))
         except Exception :
             return 'INVALID'
+            print(" ")
         return st.pop()
 
     def eval_proc(self, string):
