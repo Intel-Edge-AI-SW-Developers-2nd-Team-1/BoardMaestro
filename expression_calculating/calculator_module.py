@@ -1,6 +1,6 @@
 from collections import deque
 from operator import add, sub, mul, truediv
-import math
+from math import sin, cos, tan, log, sqrt, pi
 
 class Calculator(object):
     '''
@@ -20,8 +20,8 @@ class Calculator(object):
     '''
     bracket = {'(' : 1, ')' : 2}
     op = {'+': add, '-': sub, '*': mul, '/': truediv}
-    func = {'s': math.sin, 'c': math.cos, 't': math.tan, 'l': math.log, 'r': math.sqrt}
-    cons = {'p': math.pi}
+    func = {'s': sin, 'c': cos, 't': tan, 'l': log, 'r': sqrt}
+    cons = {'p': pi}
 
     def is_not_value(self, c):
         '''
@@ -91,16 +91,16 @@ class Calculator(object):
         ret = ''
         tokens = s.split()
         for tok in tokens:
-            if tok in self.func:
-                while st and st[-1] in self.func:
-                    ret += st.pop() + ' '
-                st.append(tok)
-            elif tok == '(':
+            if tok == '(':
                 st.append(tok)
             elif tok == ')':
                 while st[-1] != '(':
                     ret += st.pop() + ' '
                 st.pop()
+            elif tok in self.func:
+                while st and st[-1] in self.func:
+                    ret += st.pop() + ' '
+                st.append(tok)
             elif tok in ['*', '/']:
                 while st and st[-1] in ['*', '/']:
                     ret += st.pop() + ' '
@@ -131,20 +131,20 @@ class Calculator(object):
                 if tok in self.func:
                     n = st.pop()
                     st.append(self.func[tok](n))
-                elif tok in self.cons:
-                    st.append(self.cons[tok])
-                elif tok not in self.op:
-                    st.append(float(tok))
-                else:
+                elif tok in self.op:
                     n1 = st.pop()
                     n2 = st.pop()
                     if tok == '/' and n1 == 0:
                         return 'NAN'
                     st.append(self.op[tok](n2, n1))
+                elif tok in self.cons:
+                    st.append(self.cons[tok])
+                else:
+                    st.append(float(tok))
         except Exception :
             return 'INVALID'
             print(" ")
-        return st.pop()
+        return round(st.pop(), 4)
 
     def eval_proc(self, string):
         '''
