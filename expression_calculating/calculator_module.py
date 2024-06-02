@@ -1,6 +1,6 @@
 from collections import deque
 from operator import add, sub, mul, truediv
-
+import math
 
 class Calculator(object):
     '''
@@ -20,6 +20,7 @@ class Calculator(object):
     '''
     bracket = {'(' : 1, ')' : 2}
     op = {'+': add, '-': sub, '*': mul, '/': truediv}
+    func = {'s': math.sin, 'c': math.cos, 't': math.tan, 'l': math.log, 'r': math.sqrt}
 
     def is_not_value(self, c):
         '''
@@ -29,6 +30,7 @@ class Calculator(object):
         output :    true / false
         '''
         if c in self.op: return True
+        if c in self.func: return True
         elif c in self.bracket: return True
         return False
 
@@ -41,13 +43,18 @@ class Calculator(object):
         output :    splited infix style expression
         '''
         res, value = '', ''
+        prev_c = None
         for c in s:
             if self.is_not_value(c):
-                if len(value): res += value + ' '
-                res += c + ' '
-                value = ''
+                if c == '-' and (prev_c is None or prev_c in self.bracket or prev_c in self.op):
+                    value += c
+                else:    
+                    if len(value): res += value + ' '
+                    res += c + ' '
+                    value = ''
             else:
                 value += c
+            prev_c = c
         res += value
         return res
         
@@ -79,12 +86,8 @@ class Calculator(object):
         ret = ''
         tokens = s.split()
         for tok in tokens:
-            if tok in ['*', '/']:
-                while st and st[-1] in ['*', '/']:
-                    ret += st.pop() + ' '
-                st.append(tok)
-            elif tok in ['+', '-']:
-                while st and st[-1] != '(':
+            if tok in self.func:
+                while st and st[-1] in self.func:
                     ret += st.pop() + ' '
                 st.append(tok)
             elif tok == '(':
@@ -93,6 +96,14 @@ class Calculator(object):
                 while st[-1] != '(':
                     ret += st.pop() + ' '
                 st.pop()
+            elif tok in ['*', '/']:
+                while st and st[-1] in ['*', '/']:
+                    ret += st.pop() + ' '
+                st.append(tok)
+            elif tok in ['+', '-']:
+                while st and st[-1] not in ['(', '*', '/']:
+                    ret += st.pop() + ' '
+                st.append(tok)
             else:
                 ret += tok + ' '
         while st:
@@ -110,15 +121,17 @@ class Calculator(object):
         tokens = s.split()
         try:
             for tok in tokens:
-                if tok not in self.op:
+                if tok in self.func:
+                    n = st.pop()
+                    st.append(self.func[tok](n))
+                elif tok not in self.op:
                     st.append(float(tok))
                 else:
                     n1 = st.pop()
                     n2 = st.pop()
                     if tok == '/' and n1 == 0:
                         return 'NAN'
-                    else:
-                        st.append(self.op[tok](n2, n1))
+                    st.append(self.op[tok](n2, n1))
         except Exception :
             return 'INVALID'
         return st.pop()
@@ -135,3 +148,8 @@ class Calculator(object):
             return self.calc_proc(self.to_postfix_proc(self.split_proc(string)))
         else:
             return 'INVALID'
+
+if __name__ == "__main__":
+    calc = Calculator()
+    exp = input("Enter math expression: ")
+    print(calc.eval_proc(exp))
