@@ -17,7 +17,7 @@ from PyQt5.QtGui import QFont
 from hand_pose_estimation.hand_pose_estimation_module import HandPoseEstimation
 from hand_pattern_recognition.hand_pattern_recognition_module import HandPatternRecognition
 from ai_modeling.image_inferencing_module import ImageInferencing
-from image_preprocessing.preprocessing_module import Preprocessing
+from optimization_test.optimization_preprocessing_module import optimization_preprocessing
 from expression_calculating.calculator_module import Calculator
 #from user_interface.ble_interface import BluetoothWorker
 
@@ -44,8 +44,10 @@ class App(QWidget):
         # define 8_x,y,z for making image
         self.x_8 = []
         self.y_8 = []
+        self.each_line_contain_points = []
 
         # define flags and string_buf
+        self.each_line_contain_points_flag = False
         self.execute_flag = False
         self.list_flag = False
         self.string_buf = []
@@ -65,12 +67,12 @@ class App(QWidget):
         self.calc = Calculator()
         
         # call preprocessing class
-        desired_width = 150
-        desired_height = 150
-        self.preprocessing = Preprocessing(desired_width, desired_height)
+        self.desired_width = 45
+        self.desired_height = 45
+        self.preprocessing = optimization_preprocessing(self.desired_width, self.desired_height)
 
         # call and set inferencing module
-        input_shape = np.zeros((desired_width, desired_height, 3))
+        input_shape = np.zeros((self.desired_width, self.desired_height, 3))
         self.infer = ImageInferencing(model_path, 'CPU', input_shape)
 
         self.cap = cv2.VideoCapture(0)
@@ -166,6 +168,11 @@ class App(QWidget):
                 self.execute_flag = True
                 if self.str != "Stop mode":
                     self.str = "Stop mode"
+                
+                # save each_line_contain_points
+                if self.each_line_contain_points_flag == True:
+                    self.each_line_contain_points_flag = False
+                    self.each_line_contain_points.append(len(self.x_8))
 
             # execute each status
             # writing action
@@ -176,20 +183,26 @@ class App(QWidget):
                 self.save_frames += 1
                 if self.str != "writing mode":
                     self.str = "writing mode"
+                
+                # flags up
+                self.each_line_contain_points_flag = True
                 self.execute_flag = True
-
-                # list_flag up
                 self.list_flag = True
 
             # enter action
             elif self.execute_flag is True and mode_pattern == 2:
                 if self.list_flag is True:
+                    self.each_line_contain_points.append(len(self.x_8))
+
                     # list to image
-                    self.preprocessing.get_current_image(self.x_8, self.y_8)
-                    self.preprocessing.get_current_resize()
+                    self.preprocessing.create_image_from_point(self.x_8, self.y_8, self.each_line_contain_points, 1)
+
+                    # initialize value for next image
                     self.save_frames = 0
                     self.x_8 = []
                     self.y_8 = []
+                    self.each_line_contain_points = []
+
                     if self.str != "enter mode":
                         self.str = "enter mode"
                     try:
@@ -198,15 +211,15 @@ class App(QWidget):
                         print("Error : fail to acesse preprocess")
 
                     # inferencing and make string
-                    string_image = cv2.imread(f'./demo_test/Result/Result_{self.preprocessing.result_counter - 1}.jpg')
+                    string_image = self.preprocessing.result_image[self.preprocessing.result_counter - 1]
                     self.string_buf.append(f'{self.infer.get_inferencing_result(string_image, False)}')
                     self.str_buf = "".join(self.string_buf)
                     print(self.str_buf)
                     print(self.calc.eval_proc(self.str_buf))
 
+                    # flag down
+                    self.each_line_contain_points_flag = False
                     self.execute_flag = False
-
-                    # list_flag down
                     self.list_flag = False
 
                 else:
@@ -219,12 +232,14 @@ class App(QWidget):
                     # erase list
                     self.x_8 = []
                     self.y_8 = []
+                    self.each_line_contain_points = []
                     self.save_frames = 0
                     if self.str != "erase list":
                         self.str = "erase list"
+                    
+                    # flags down
+                    self.each_line_contain_points_flag = False
                     self.execute_flag = False
-
-                    # list_flag down
                     self.list_flag = False
 
                 else:
@@ -232,6 +247,7 @@ class App(QWidget):
                     # erase picture or move index
                     if self.preprocessing.result_counter != 0:
                         self.preprocessing.result_counter -= 1
+                        self.preprocessing.result_image[self.preprocessing.result_counter] = np.ones((self.desired_width, self.desired_height, 3), dtype=np.uint8)*255
                         del self.string_buf[self.preprocessing.result_counter]
                         self.str_buf = "".join(self.string_buf)
                         print(self.str_buf)
@@ -241,7 +257,10 @@ class App(QWidget):
                         self.str = "erase picture"
                     self.str2 = f'counter: {self.preprocessing.result_counter}'
 
+                    # flags down
+                    self.each_line_contain_points_flag = False
                     self.execute_flag = False
+                    self.list_flag = False
 
         if self.preprocessing.result_counter == 0:
             img3 = cv2.imread('./demo_test/intel_logo.png')
@@ -250,7 +269,7 @@ class App(QWidget):
             h, w, c = convert_img.shape
             img2 = QImage(convert_img.data, w, h, w * c, QImage.Format_RGB888)
         else:
-            show_img = cv2.imread(f'./demo_test/Result/Result_{self.preprocessing.result_counter-1}.jpg')
+            show_img = self.preprocessing.result_image[self.preprocessing.result_counter-1]
             show_new_img = cv2.resize(show_img,(int(450 * self.ratio_w), int(450 * self.ratio_h)))
             h, w, c = show_new_img.shape
             img2 = QImage(show_new_img.data, w, h, w * c, QImage.Format_RGB888)

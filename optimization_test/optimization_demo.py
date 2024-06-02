@@ -170,6 +170,7 @@ def main():
 
                     # inferencing and make string
                     string_image = opti_preprocessing.result_image[opti_preprocessing.result_counter - 1]
+                    cv2.imwrite('number.png', string_image)
                     cv2.imshow(f'draw_img{opti_preprocessing.result_counter-1}',string_image)
                     string_buf.append(f'{infer.get_inferencing_result(string_image, False)}')
                     str_buf = "".join(string_buf)
