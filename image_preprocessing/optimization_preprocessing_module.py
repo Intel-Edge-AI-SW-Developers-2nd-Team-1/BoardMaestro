@@ -39,10 +39,10 @@ class optimization_preprocessing:
                 else:
                     new_x.append(x[j])
                     new_y.append(y[j])
-            current_idx += each_line_contain_points[i]
+            current_idx = each_line_contain_points[i]
         x = new_x
         y = new_y
-                    
+
         # find max_x, max_y, min_x, min_y
         max_x = 0
         max_y = 0
@@ -103,5 +103,5 @@ class optimization_preprocessing:
         for i in range(len(each_line_contain_points)):
             for j in range(current_idx, each_line_contain_points[i]-1):
                 cv2.line(frame, (x[j], y[j]), (x[j+1], y[j+1]), (0,0,0), line_thick)
-            current_idx += each_line_contain_points[i]
+            current_idx = each_line_contain_points[i]
         return frame
