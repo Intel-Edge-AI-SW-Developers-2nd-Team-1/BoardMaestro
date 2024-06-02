@@ -11,6 +11,7 @@ class optimization_preprocessing:
         '''
         self.result_counter = 0
         self.result_image = []
+        self.moving_buf = 5
         self.image_width = 640
         self.image_height = 480
         self.desired_width = desired_width
@@ -21,8 +22,27 @@ class optimization_preprocessing:
 
     def create_image_from_point(self, x, y, each_line_contain_points, line_thick):
         # move_avg_filter x, y points
-
-        
+        new_x = []
+        new_y = []
+        current_idx = 0
+        moving_buf_half = int(self.moving_buf/2)
+        for i in range(len(each_line_contain_points)):
+            for j in range(current_idx, each_line_contain_points[i]):
+                if j >= (moving_buf_half+current_idx) and j < (each_line_contain_points[i] - moving_buf_half):
+                    sum_x = 0
+                    sum_y = 0
+                    for k in range(self.moving_buf):
+                        sum_x += x[j - moving_buf_half + k]
+                        sum_y += y[j - moving_buf_half + k]
+                    new_x.append(int(sum_x/self.moving_buf))
+                    new_y.append(int(sum_y/self.moving_buf))
+                else:
+                    new_x.append(x[j])
+                    new_y.append(y[j])
+            current_idx += each_line_contain_points[i]
+        x = new_x
+        y = new_y
+                    
         # find max_x, max_y, min_x, min_y
         max_x = 0
         max_y = 0
@@ -73,6 +93,7 @@ class optimization_preprocessing:
 
         # create image
         self.result_image[self.result_counter] = self.draw_line_from_point(x, y, each_line_contain_points, self.result_image[self.result_counter], line_thick)
+        self.result_image[self.result_counter] = cv2.flip(self.result_image[self.result_counter], 1)
 
         self.result_counter += 1
         return self.result_image[self.result_counter-1]
